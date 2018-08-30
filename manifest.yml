@@ -1,0 +1,5 @@
+---
+applications:
+- name: RecastAPIBackend
+  memory: 64M
+  buildpack: nodejs_buildpack

@@ -1,0 +1,15 @@
+{
+  "name": "recastbackendapi",
+  "version": "0.0.1",
+  "description": "Recast API Backend",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "8"
+  },
+  "dependencies": {
+    "express": "*"
+  },
+  "author": "I068605"
+}
