@@ -6,4 +6,4 @@ npm install
 npm start
 ```
 
-Page can be found at http://localhost:3000
+Page can be found at http://localhost:8080
