@@ -289,7 +289,10 @@ if (!('webkitSpeechRecognition' in window)) {
         msg: event.results[i][0].transcript
        }
        $.post("/chat", chat, function(data){ 
-
+			console.log("data recieved is " + data);
+			var response = '<br> Bot : ' + data.Status.results.intents[0].slug + '<br> Me :';
+			final_transcript +=  response;
+			final_span.innerHTML = linebreak(final_transcript);  
       })
       } else {
         interim_transcript += event.results[i][0].transcript;
