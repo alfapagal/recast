@@ -73,7 +73,43 @@
     border: 1px solid #ddd;
     padding: 15px;
     text-align: left;
-    min-height: 150px;
+    min-height: 15px;
+  }
+  .mychat{
+    font-size: 14px;
+    color: #fff;
+    margin-top: 10px;
+    border: 0px solid #33F;
+    border-radius: 25px;
+    background-color: #3578e5;
+    padding: 8px;
+    text-align: left;
+    min-height: 15px;
+    display: inline-block;
+    clear: both;
+    float: right;
+    align-self: right;
+  }
+  .botchat{
+    font-size: 14px;
+    color: #444950;
+    margin-top: 10px;
+    border: 0px solid #33F;
+    border-radius: 25px;
+    background-color: #e9ebee;
+    padding: 8px;
+    text-align: left;
+    min-height: 15px;
+    display: inline-block;
+    float: left;
+    align-self: right;
+  }
+  .botimg{
+    display: inline-block;
+    clear: both;
+    float: left;
+    height: 50px;
+    width: 70px;
   }
   #start_button {
     border: 0;
@@ -101,7 +137,7 @@
      Upgrade to <a href="//www.google.com/chrome">Chrome</a>
      version 25 or later.</p>
 </div>
-<div class="right">
+<div class="center">
   <button id="start_button" onclick="startButton(event)">
     <img id="start_img" src="mic.gif" alt="Start"></button>
 </div>
@@ -133,6 +169,7 @@
     <select id="select_dialect"></select>
   </div>
 </div>
+<div id="chat"></div>
 <script>
 var langs =
 [['Afrikaans',       ['af-ZA']],
@@ -288,22 +325,30 @@ if (!('webkitSpeechRecognition' in window)) {
         var chat = {
         msg: event.results[i][0].transcript
        }
-       $.post("/chat", chat, function(data){ 
-
-      })
+       recognition.stop();
+       window.setTimeout(function(){$.post("/chat", chat, function(data){ 
+          $('.botchat')[0].innerHTML = data.Okay;
+          synth.speak(new SpeechSynthesisUtterance(data.Okay));
+          recognition.start();
+      })}, 1000);
+      addMyChat(chat.msg);
       } else {
         interim_transcript += event.results[i][0].transcript;
       }
     }
     final_transcript = capitalize(final_transcript);
-    final_span.innerHTML = linebreak(final_transcript);
+    //final_span.innerHTML = linebreak(final_transcript);
     interim_span.innerHTML = linebreak(interim_transcript);
     if (final_transcript || interim_transcript) {
       showButtons('inline-block');
     }
   };
 }
-
+function addMyChat(msg){
+  $('#chat').prepend('<div class="mychat">'+msg+'</div>');
+  $('#chat').prepend('<img src="botsfloor.png" class="botimg"><div class="botchat"><img src="writing.gif" height="20px"></div>');
+  $('#final_span').html('')
+}
 function upgrade() {
   start_button.style.visibility = 'hidden';
   showInfo('info_upgrade');
@@ -394,4 +439,5 @@ function showButtons(style) {
   copy_info.style.display = 'none';
   email_info.style.display = 'none';*/
 }
+var synth = window.speechSynthesis;
 </script>
