@@ -327,8 +327,8 @@ if (!('webkitSpeechRecognition' in window)) {
        }
        recognition.stop();
        window.setTimeout(function(){$.post("/chat", chat, function(data){ 
-          $('.botchat')[0].innerHTML = data.Okay;
-          synth.speak(new SpeechSynthesisUtterance(data.Okay));
+          $('.botchat')[0].innerHTML = data.Status.content;
+          synth.speak(new SpeechSynthesisUtterance(data.Status.content));
           recognition.start();
       })}, 1000);
       addMyChat(chat.msg);
