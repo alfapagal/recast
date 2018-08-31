@@ -4,13 +4,12 @@ var logging = require('@sap/logging');
 const request = require('request');
 
 const postToRecast = (params,callback) => {
-	var apiUrl = 'https://api.recast.ai/v2/request';
+	var apiUrl = 'https://api.recast.ai/build/v1/dialog';
 	var authHeaderValue = 'Token 35417c92c6fedd3aa4ffa589c76b7792';
 	console.log("Preparing for posting to Recast API : " + apiUrl);
 	var headers = { 'Authorization' : authHeaderValue };
 	var myPayload = new Object();
-	myPayload.text = params.text;
-	myPayload.language = params.language;
+	myPayload = params;
 	var options = {
 			method: 'POST',
 			uri : apiUrl,
@@ -48,8 +47,13 @@ exports.postConversation = function(req, res){
 	 	
 	console.log("Message is " + req.body.msg);
 	var params = {};
-	params.text = req.body.msg;
-	params.language = 'en';
+	var message = {};
+	message.type = 'text';
+	message.content = req.body.msg;
+	params.message = message;
+	params.conversation_id = 'test-1234567';
+	params.log_level = 'info';
+	
 	postToRecast(params, (err,body) => {
 		var result = {};
 	
@@ -58,7 +62,8 @@ exports.postConversation = function(req, res){
 			result = { "Status" : "Failure with " + err.statusCode};
 		}else {
 			console.log("response success");
-			result = { "Status" : body};
+			var result = body.results.messages[0];
+			result = { "Status" : result};
 		}
 		res.json(result);
 	});
