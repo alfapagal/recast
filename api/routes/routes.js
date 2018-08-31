@@ -6,5 +6,8 @@ module.exports = function(app) {
   app.route('/chat')
     .get(recast.getConversation)
     .post(recast.postConversation);
+  
+  app.route('/salesorder')
+    .post(recast.createSalesOrder);
 
 };
