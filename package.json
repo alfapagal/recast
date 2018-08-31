@@ -9,7 +9,6 @@
     "node": "8"
   },
   "dependencies": {
-    "@sap/logging": "^3.0.0",
     "express": "4.16.2",
     "request": "2.87.0",
     "uuid": "3.1.0"
