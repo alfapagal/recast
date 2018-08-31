@@ -1,6 +1,5 @@
 'use strict';
 var https = require('https');
-var logging = require('@sap/logging');
 const request = require('request');
 
 const postToRecast = (params,callback) => {
