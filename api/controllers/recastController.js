@@ -87,7 +87,6 @@ const createSalesOrderWithApi = (params, callback) => {
 	salesOrderData.SalesOffice = "180";
 	salesOrderData.SalesDistrict = "";
 	salesOrderData.SoldToParty = "S18100252";
-	salesOrderData.PurchaseOrderByCustomers = "Test BAPI";
 	salesOrderData.CustomerPurchaseOrderType = "";
 	salesOrderData.CustomerPurchaseOrderDate = null;
 	salesOrderData.TotalNetAmount = "0.00";
@@ -112,7 +111,7 @@ const createSalesOrderWithApi = (params, callback) => {
 	salesOrderData.TotalCreditCheckStatus = "";
 	salesOrderData.OverallTotalDeliveryStatus = "C";
 	salesOrderData.OverallSDDocumentRejectionSts = "A";
-	myPayload.d = salesOrderData;
+	myPayload = salesOrderData;
 	var options = {
 			method: 'POST',
 			uri : apiUrl,
