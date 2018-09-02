@@ -38,7 +38,7 @@ const postToRecast = (params,callback) => {
 const getCsrfTokenForSalesOrderApi = (params, callback) => {
 	var apiUrl = salesOrderApi + "('16839')?$format=json";
 	console.log("Trigger get CSRF token to the URL " + apiUrl);
-	var authHeaderValue = 'Basic U0RfQVBJXzAxMDk6bHlCTXhvS2h5Q0xTTW11ZTdzTnREeE5LQ0tSXFhEYXVjR3lQeHlpag==';
+	var authHeaderValue = 'Basic UkVDQVNUX1VTRVI6MldyVVVccG5hRGloZ2Vjc0p3VHJRWEtzQ3RobmVGaXRFQkVwanFBbw==';
 	var headers = { 'Authorization' : authHeaderValue , 'X-CSRF-Token' : 'Fetch'  };
 	var options = {
 			method: 'GET',
@@ -196,7 +196,8 @@ exports.createSalesOrder = function(req,res){
 				}else {
 					console.log("response success for creating sales order");
 					var result = {};
-					result = {"Status" : responsePath} ;
+          result = {"Status" : responsePath} ;
+          res.json(result);
 				}
 				
 			});
