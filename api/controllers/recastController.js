@@ -45,7 +45,7 @@ const getCsrfTokenForSalesOrderApi = (params, callback) => {
 			uri : apiUrl,
 			headers: headers,			
 			json: true
-	};
+  };
 	request.get(options, (err, response, body) => {
 	    if (err) {
 	    	console.log("Error in making the call to Sales Order API for getting CSRF token")
@@ -60,8 +60,10 @@ const getCsrfTokenForSalesOrderApi = (params, callback) => {
 	      return;
 	    } else {
 	      console.log('Response Success for Sales Order CSRF creation call ');
-	      var csrfToken = response.headers['x-csrf-token'];
-	      callback(null, csrfToken);
+        var csrfToken = response.headers['x-csrf-token'];
+        var cookie = response.headers['set-cookie'];
+        console.log("Cookies are loaded: " + cookie);
+	      callback(null, csrfToken, cookie);
 	      
 	      return;
 	    }
@@ -69,10 +71,12 @@ const getCsrfTokenForSalesOrderApi = (params, callback) => {
 };
 
 const createSalesOrderWithApi = (params, callback) => {
-	var csrfToken = params.csrfToken;
+  var csrfToken = params.csrfToken;
+  var cookie = params.cookie;
 	var apiUrl = salesOrderApi;
 	var authHeaderValue = 'Basic U0RfQVBJXzAxMDk6bHlCTXhvS2h5Q0xTTW11ZTdzTnREeE5LQ0tSXFhEYXVjR3lQeHlpag==';
-	var headers = { 'Authorization' : authHeaderValue , 'X-CSRF-Token' : csrfToken  };
+  var headers = { 'Authorization' : authHeaderValue , 'X-CSRF-Token' : csrfToken, 'cookie': cookie };
+  console.log("CSRF TOken:" + csrfToken);
 	var myPayload = new Object();
 	var salesOrderData = new Object();
 	salesOrderData.SalesOrderType = "OR";
@@ -115,7 +119,8 @@ const createSalesOrderWithApi = (params, callback) => {
 			headers: headers,
 			body: myPayload,
 			json: true
-	};
+  };
+  console.log("Making post request to api call");
 	request.post(options, (err, response, body) => {
 	    if (err) {
 	    	console.log("Error in making the call to Sales Order API")
@@ -177,12 +182,13 @@ exports.createSalesOrder = function(req,res){
 	console.log("Going to create Sales Order");
 	var params = {};
 	var result = {};
-	getCsrfTokenForSalesOrderApi(params, (err,csrfToken) => {
+	getCsrfTokenForSalesOrderApi(params, (err,csrfToken,cookie) => {
 		if(err){
 			console.log("response failure for getting csrf token");
 			result = { "Status " : " Failure with " + err.statusCode};
 		} else {
-			params.csrfToken = csrfToken;
+      params.csrfToken = csrfToken;
+      params.cookie = cookie;
 			createSalesOrderWithApi(params, (err,responsePath) => {
 				
 				if(err){
