@@ -1,5 +1,6 @@
 'use strict';
 var https = require('https');
+var gvSalesOrderPath;
 const request = require('request');
 const salesOrderApi = "https://cc2-715-api.wdf.sap.corp/sap/opu/odata/sap/API_SALES_ORDER_SRV/A_SalesOrder";
 const postToRecast = (params,callback) => {
@@ -168,8 +169,30 @@ exports.postConversation = function(req, res){
 			result = { "Status" : "Failure with " + err.statusCode};
 		}else {
 			console.log("response success");
-			var result = body.results.messages[0];
+			var result = {};
+			var text ;
+			var messages = body.results.messages;
+			if(messages == undefined){
+				console.log("messages is undefined");
+				result = { "Status" : "I got nothing bro, Try again !"};
+			}else {
+				
+			for(var message of messages){
+			 for (var property in  message) {
+				  if (message.hasOwnProperty(property)) {
+			        	console.log(' response has property ' + property + ' with value ' + message[property]);
+			            if(property == 'content'){
+			            	if(text == undefined)
+			            		text = message[property] + '<br>';
+			            	else
+			            	    text = text + message[property] + '<br>';
+			            }
+			       }
+			   }
+			}
+			result = text;
 			result = { "Status" : result};
+			}
 		}
 		res.json(result);
 	});
@@ -197,6 +220,7 @@ exports.createSalesOrder = function(req,res){
 					console.log("response success for creating sales order");
 					var result = {};
           result = {"Status" : responsePath} ;
+          gvSalesOrderPath = responsePath;
           res.json(result);
 				}
 				
@@ -206,6 +230,19 @@ exports.createSalesOrder = function(req,res){
 	});
 	
 }
+
+exports.getSalesOrderPath = function(req,res){
+	console.log("Going to get status of sales order created before");
+	var result = {};
+	if(gvSalesOrderPath == undefined){
+		res.status = 204;
+	}else {
+		result = {"Status" : gvSalesOrderPath};
+		gvSalesOrderPath = undefined;
+		res.stuats = 200;
+		res.json(result);
+	}
+} 
 
 // Use as sample
 

@@ -329,10 +329,10 @@ if (!('webkitSpeechRecognition' in window)) {
        window.setTimeout(function(){$.post("/chat", chat, function(data){ 
          if(data.Status === undefined){
            data.Status = {};
-           data.Status.content = "I got nothing bro, try again"
+           data.Status = "I got nothing bro, try again"
          }
-          $('.botchat')[0].innerHTML = data.Status.content;
-          var utter = new SpeechSynthesisUtterance(data.Status.content);
+          $('.botchat')[0].innerHTML = data.Status;
+          var utter = new SpeechSynthesisUtterance(data.Status);
           utter.onend = function(){
             recognition.start();
           }

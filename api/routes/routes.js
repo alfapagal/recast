@@ -9,5 +9,8 @@ module.exports = function(app) {
   
   app.route('/salesorder')
     .post(recast.createSalesOrder);
+  
+  app.route('/salesorder')
+  .get(recast.getSalesOrderPath);
 
 };
