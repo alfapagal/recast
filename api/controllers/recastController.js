@@ -75,7 +75,7 @@ const createSalesOrderWithApi = (params, callback) => {
   var csrfToken = params.csrfToken;
   var cookie = params.cookie;
 	var apiUrl = salesOrderApi;
-	var authHeaderValue = 'Basic U0RfQVBJXzAxMDk6bHlCTXhvS2h5Q0xTTW11ZTdzTnREeE5LQ0tSXFhEYXVjR3lQeHlpag==';
+	var authHeaderValue = 'Basic UkVDQVNUX1VTRVI6MldyVVVccG5hRGloZ2Vjc0p3VHJRWEtzQ3RobmVGaXRFQkVwanFBbw==';
   var headers = { 'Authorization' : authHeaderValue , 'X-CSRF-Token' : csrfToken, 'cookie': cookie };
   console.log("CSRF TOken:" + csrfToken);
 	var myPayload = new Object();
